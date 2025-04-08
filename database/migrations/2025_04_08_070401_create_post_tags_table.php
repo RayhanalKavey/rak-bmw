@@ -10,17 +10,18 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('post_tags', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-                ->references('id')->on('users')
+            $table->unsignedBigInteger('post_id');
+            $table->foreign('post_id')
+                ->references('id')->on('posts')
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
-            $table->string('title');
-            $table->text('content');
-            $table->string('image')->nullable();
-            $table->enum('visibility', ['public', 'private']);
+            $table->unsignedBigInteger('tag_id');
+            $table->foreign('tag_id')
+                ->references('id')->on('tags')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('post_tags');
     }
 };

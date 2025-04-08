@@ -24,4 +24,16 @@ class Post extends Model
         return $this->belongsToMany(Tag::class)->withTimestamps();
         // If you use PostTag model: ->using(PostTag::class)
     }
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
 }
