@@ -9,11 +9,11 @@ const form = useForm({
     username: "",
     email: "",
     password: "",
-    profile_pic: null,
+    image: null,
 });
 
 const handleProfilePic = (e) => {
-    form.profile_pic = e.target.files[0];
+    form.image = e.target.files[0];
 };
 
 const submit = () => {

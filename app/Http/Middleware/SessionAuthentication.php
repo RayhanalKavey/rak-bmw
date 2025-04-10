@@ -15,8 +15,8 @@ class SessionAuthentication
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $email = $request->session()->get('email', 'default');
-        $user_id = $request->session()->get('user_id', 'default');
+        $email = $request->session()->get('email');
+        $user_id = $request->session()->get('user_id');
         $last_activity = $request->session()->get('last_activity', time());
 
         $session_timeout = 3600; // 60 minutes timeout
@@ -31,7 +31,7 @@ class SessionAuthentication
             ]);
         }
 
-        if ($email == 'default') {
+        if (!$email || !$user_id) {
             return redirect('/login')->with([
                 'message' => 'Unauthorized access. Please log in.',
                 'status' => false,
@@ -39,7 +39,6 @@ class SessionAuthentication
             ]);
         }
 
-        // Update last activity timestamp
         $request->session()->put('last_activity', time());
 
         $request->headers->set('email', $email);
