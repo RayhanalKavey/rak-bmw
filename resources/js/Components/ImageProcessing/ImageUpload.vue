@@ -26,9 +26,9 @@ const props = defineProps({
 
 const currentImage = props.productImage
     ? props.productImage
-    : "placeholder.png";
+    : props.placeholderImage;
 const preview = ref(currentImage);
-
+console.log(currentImage);
 const emit = defineEmits(["image"]);
 
 const imageSelected = (e) => {

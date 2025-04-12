@@ -34,10 +34,42 @@ class PostController extends Controller
         } catch (Exception $e) {
         }
     }
+    public function updatePostPage(Request $request, $id)
+    {
+        try {
+            $user_id = $request->header('id');
+            User::where('id', $user_id)->first();
+            $post = Post::findOrFail($id);
+            return Inertia::render('UpdatePostPage', ['post' => $post]);
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors([
+                'error' => 'Post not found'
+            ]);
+        }
+    }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
+    public function myPosts(Request $request)
+    {
+        try {
+            $user_id = $request->header('id');
+            $user = User::where('id', $user_id)->select('id')->first();
+
+
+            $posts = Post::where('user_id', $user->id)
+                ->with('tags')
+                ->latest()
+                ->get();
+
+            return Inertia::render('DashboardPostPage', [
+                'posts' => $posts,
+            ]);
+        } catch (Exception $e) {
+            $data = ['message' => $e->getMessage(), 'status' => false, 'error' => ''];
+            return redirect('/')->with($data);
+
+        }
+    }
     public function createPost(Request $request)
     {
         try {
@@ -84,17 +116,16 @@ class PostController extends Controller
                 }
             }
             $data = ['message' => 'Post created successfully', 'status' => true, 'error' => ''];
-            return redirect('/')->with($data);
+            return redirect('/my-posts')->with($data);
 
         } catch (Exception $e) {
             $data = ['message' => $e->getMessage(), 'status' => false, 'error' => ''];
-            return redirect('/')->with($data);
+            return redirect('/my-posts')->with($data);
         }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
+
     public function updatePost(Request $request, $id)
     {
         try {
@@ -106,7 +137,7 @@ class PostController extends Controller
                 'visibility' => 'sometimes|required|in:public,private',
                 'tags' => 'nullable|array',
                 'tags.*' => 'nullable|string|distinct',
-                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048',
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:2048,png,jpg,gif,webp,svg|max:2048',
             ]);
 
             $post = Post::where('id', $id)->where('user_id', $user_id)->firstOrFail();
@@ -144,43 +175,12 @@ class PostController extends Controller
             }
 
             $data = ['message' => 'Post updated successfully', 'status' => true, 'error' => ''];
-            return redirect('/')->with($data);
+            return redirect('/my-posts')->with($data);
         } catch (Exception $e) {
             $data = ['message' => $e->getMessage(), 'status' => false, 'error' => ''];
-            return redirect('/')->with($data);
+            return redirect('/my-posts')->with($data);
         }
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Post $post)
-    {
-        //
-    }
 }

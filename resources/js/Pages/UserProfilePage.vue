@@ -17,7 +17,11 @@ const handleUserUpdate = (updatedUser) => {
 
         <div class="flex items-center space-x-4">
             <img
-                :src="user.image ?? 'profilePic/default-user.webp'"
+                :src="
+                    user.image
+                        ? `${user.image}`
+                        : '/profilePic/default-user.webp'
+                "
                 alt="Profile"
                 class="w-20 h-20 rounded-full border"
             />

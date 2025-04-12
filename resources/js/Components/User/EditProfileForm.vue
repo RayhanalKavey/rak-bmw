@@ -7,14 +7,14 @@ import { defineEmits } from "vue";
 const page = usePage();
 const toaster = createToaster({ position: "top-right" });
 
-const emit = defineEmits();
+const emit = defineEmits(["updateUser"]);
 
 const form = useForm({
     username: page.props.user.username,
     email: page.props.user.email,
-    image: page.props.user.image,
+    image: page.props.user.image || "profilePic/default-user.webp",
 });
-
+console.log("33", form);
 const submit = () => {
     if (!(form.image instanceof File)) {
         form.image = null;

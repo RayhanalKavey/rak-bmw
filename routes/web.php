@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserController;
@@ -25,10 +26,15 @@ Route::middleware(SessionAuthentication::class)->group(function () {
     Route::post('/user-update', [UserController::class, 'userUpdate'])->name('user.update');
 
     // Post
-    // Route::get('/my-posts', [PostController::class, 'myPosts']);
     // Route::delete('/posts/{id}', [PostController::class, 'destroy']);
-    Route::get('/createPostPage', [PostController::class, 'createPostPage'])->name('posts.all');
-    Route::post('/posts-create', [PostController::class, 'createPost'])->name('posts.create');
+    Route::get('/my-posts', [PostController::class, 'myPosts']);
+    Route::get('/createPostPage', [PostController::class, 'createPostPage'])->name('posts.create');
+    Route::get('/updatePostPage/{id}', [PostController::class, 'updatePostPage'])->name('posts.update.page');
+    Route::post('/post-create', [PostController::class, 'createPost'])->name('post.create');
+    Route::post('/post-update/{id}', [PostController::class, 'updatePost'])->name('post.update');
+
+    //Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 });
 /* ------- Page routes ------ */
 // Route::get('/', function () {
