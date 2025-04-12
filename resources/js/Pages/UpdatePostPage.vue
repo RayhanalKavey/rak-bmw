@@ -79,11 +79,11 @@ const handleSubmit = () => {
                 <label class="block mb-1 text-lg font-semibold"
                     >Post Image</label
                 >
-                <!-- <ImageUpload
+                <ImageUpload
                     :productImage="form.image"
                     :placeholderImage="'postsImage/default-post-image.jpg'"
                     @image="(e) => (form.image = e)"
-                /> -->
+                />
             </div>
 
             <!-- Visibility -->

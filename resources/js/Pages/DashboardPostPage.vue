@@ -18,7 +18,7 @@ const Header = [
 const searchField = "title";
 
 // Initialize with empty array fallback
-const Items = ref(page.props.posts || []);
+const Items = ref(page.props.posts);
 
 watch(
     () => page.props.posts,
@@ -75,13 +75,29 @@ const DeleteClick = (id) => {
                                     :rows-per-page="10"
                                     show-index
                                 >
+                                    <template
+                                        #item-image="{ image }"
+                                        class="pt-2 pb-2"
+                                    >
+                                        <img
+                                            :src="
+                                                image
+                                                    ? `${image}`
+                                                    : 'postsImage/default-post-image.webp'
+                                            "
+                                            :alt="image"
+                                            alt=""
+                                            height="auto"
+                                            width="40px"
+                                        />
+                                    </template>
                                     <template #item-action="{ id }">
-                                        <a
+                                        <Link
                                             :href="`/updatePostPage/${id}`"
                                             class="btn btn-success mx-3 btn-sm"
                                         >
                                             Edit
-                                        </a>
+                                        </Link>
                                         <button
                                             @click="DeleteClick(id)"
                                             class="btn btn-danger btn-sm"
